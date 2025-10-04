@@ -8,15 +8,15 @@ static unsigned long t1, dt;   //Timer 1 non bloccante
 static unsigned long t2, dt2;  //Timer 2 non bloccante
 boolean RUN = false;
 boolean RUN1 = false;
-int remote = 8;                //Ingresso telecomando
-int apre = 3;                  //Uscita motore apre
-int chiude = 2;                //Uscita motore chiude
-int lampeggiante = 4;          //Uscita lampeggiante
-int fotocellula = 10;          //Ingresso fotocellula 
-int finecorsa_apre = 6;        //Ingresso finecorsa apertura
-int finecorsa_chiude = 7;      //Ingresso finecorsa chiusura
-int dir = 0;                   //Direzione motore
-int moto = 0;                  //Stato motore
+int remote = 8;            //Ingresso telecomando
+int apre = 3;              //Uscita motore apre
+int chiude = 2;            //Uscita motore chiude
+int lampeggiante = 4;      //Uscita lampeggiante
+int fotocellula = 10;      //Ingresso fotocellula
+int finecorsa_apre = 6;    //Ingresso finecorsa apertura
+int finecorsa_chiude = 7;  //Ingresso finecorsa chiusura
+int dir = 0;               //Direzione motore
+int moto = 0;              //Stato motore
 int i = 0;
 int fase = 0;
 int stp = 0;
@@ -144,6 +144,15 @@ void chiusura() {
   }
   digitalWrite(chiude, HIGH);
   digitalWrite(lampeggiante, HIGH);
+  delay(500);
+  digitalWrite(lampeggiante, LOW);
+  delay(500);
+  digitalWrite(lampeggiante, HIGH);
+  delay(500);
+  digitalWrite(lampeggiante, LOW);
+  delay(500);
+  digitalWrite(lampeggiante, HIGH);
+  delay(500);
   dir = 0;
   moto = 0;
 }
