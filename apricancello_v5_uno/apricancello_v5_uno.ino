@@ -1,6 +1,6 @@
 /*
 APRICANCELLO BY MARCO DALL'OLMO  9-5-2024 
-
+Aggiornato 4-10-25
   */
 #define INTERVALLOA 200        //intrevallo lampeggio asincriono
 #define INTERVALLOB 2500       //intrevallo lampeggio asincriono
