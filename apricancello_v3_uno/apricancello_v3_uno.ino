@@ -32,7 +32,7 @@ void setup() {
   pinMode(chiude, OUTPUT);
   pinMode(lampeggiante, OUTPUT);
   pinMode(fotocellula, INPUT_PULLUP);
-  pinMode(remote, INPUT_PULLUP);
+  pinMode(remote, INPUT);
   pinMode(finecorsa_apre, INPUT_PULLUP);
   pinMode(finecorsa_chiude, INPUT_PULLUP);
   Serial.begin(115200);
@@ -50,7 +50,7 @@ void loop() {
   if (digitalRead(remote) != 0) {
     digitalWrite(lampeggiante, LOW);
     moto = 1;
-    for (i = 1; i < 2; i++){ 
+    for (i = 1; i < 2; i++) {
       //stato();
       if ((digitalRead(remote) != 0) && (moto = 1)) {
         moto = 0;
@@ -76,7 +76,7 @@ void loop() {
     }
   }
   dt = millis() - t1;
-  if ((dt >=5000) && RUN) {
+  if ((dt >= 40000) && RUN) {
     chiusura();
     RUN = false;
   }
@@ -88,12 +88,12 @@ void apertura() {
     t2 = millis();
     RUN1 = true;
     digitalWrite(lampeggiante, LOW);
-       //motorea = 1;
-        dt2 = millis() - t2;
+    //motorea = 1;
+    dt2 = millis() - t2;
     if ((dt2 >= 1000) && RUN1) {
       RUN1 = false;
     }
- 
+
     //Serial.println(digitalRead(fotocellula));
     if (digitalRead(fotocellula) == 1) {
       moto = 0;
@@ -103,31 +103,30 @@ void apertura() {
     }
     digitalWrite(apre, LOW);
     //tone(11, 700, 100);
-    delay(300);
+    delay(500);
 
 
     digitalWrite(lampeggiante, HIGH);
-    delay(300);
+    delay(500);
     /*dt2 = millis() - t2;
     if ((dt2 >= 1000) && RUN1) {
       RUN1 = false;*/
-      if (digitalRead(remote) != 0) {
-        //motorea = 0;
-        moto = 0;
-        digitalWrite(apre, HIGH);
-        delay(1000);
-        break;
-      }
+    if (digitalRead(remote) != 0) {
+      //motorea = 0;
+      moto = 0;
+      digitalWrite(apre, HIGH);
+      delay(1000);
+      break;
     }
-    dir = 1;
-    //motorea = 0;
-    moto = 0;
-    digitalWrite(apre, HIGH);
-    t1 = millis();
-    RUN = true;
+  }
+  dir = 1;
+  //motorea = 0;
+  moto = 0;
+  digitalWrite(apre, HIGH);
+  t1 = millis();
+  RUN = true;
 
-    // chiusura();
-  
+  // chiusura();
 }
 
 void chiusura() {
@@ -135,16 +134,18 @@ void chiusura() {
   while (digitalRead(finecorsa_chiude) != 0) {
     digitalWrite(lampeggiante, LOW);
     motorec = 1;
-    digitalWrite(chiude, LOW);
-    if (digitalRead(fotocellula) == 1) {
-      moto = 0;
-      dir = 0;
-      emergenza();
-      break;
+    if (digitalRead (apre) == HIGH) {
+      digitalWrite(chiude, LOW);
+      if (digitalRead(fotocellula) == 1) {
+        moto = 0;
+        dir = 0;
+        emergenza();
+        break;
+      }
     }
-    delay(300);
+    delay(700);
     digitalWrite(lampeggiante, HIGH);
-    delay(300);
+    delay(700);
     if (digitalRead(remote) != 0) {
       motorec = 0;
       moto = 0;
@@ -156,7 +157,7 @@ void chiusura() {
   dir = 0;
   motorec = 0;
   moto = 0;
-   delay(1000);
+  delay(1000);
 }
 void emergenza() {
 
@@ -165,9 +166,9 @@ void emergenza() {
     digitalWrite(apre, HIGH);
     digitalWrite(chiude, HIGH);
     digitalWrite(lampeggiante, LOW);
-    delay(2000);
+    delay(300);
     digitalWrite(lampeggiante, HIGH);
-    delay(2000);
+    delay(300);
   }
   //delay(5000);
   if (digitalRead(fotocellula) != 1) {
