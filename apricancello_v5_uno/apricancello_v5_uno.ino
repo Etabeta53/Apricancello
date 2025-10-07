@@ -2,12 +2,12 @@
 APRICANCELLO BY MARCO DALL'OLMO  9-5-2024 
 Aggiornato 4-10-25
   */
-#define INTERVALLOA 200        //intrevallo lampeggio asincriono
+/*#define INTERVALLOA 200        //intrevallo lampeggio asincriono
 #define INTERVALLOB 2500       //intrevallo lampeggio asincriono
 static unsigned long t1, dt;   //Timer 1 non bloccante
 static unsigned long t2, dt2;  //Timer 2 non bloccante
 boolean RUN = false;
-boolean RUN1 = false;
+boolean RUN1 = false;*/
 int remote = 8;            //Ingresso telecomando
 int apre = 3;              //Uscita motore apre
 int chiude = 2;            //Uscita motore chiude
@@ -18,8 +18,8 @@ int finecorsa_chiude = 7;  //Ingresso finecorsa chiusura
 int dir = 0;               //Direzione motore
 int moto = 0;              //Stato motore
 int i = 0;
-int fase = 0;
-int stp = 0;
+//int fase = 0;
+//int stp = 0;
 
 
 
@@ -66,7 +66,7 @@ void loop() {
         break;
     }
   }
-  dt = millis() - t1;
+  /*dt = millis() - t1;
   if ((dt >= 40000) && RUN) {
     chiusura();
     RUN = false;
@@ -85,18 +85,20 @@ void loop() {
       }
       t2 = millis();
     }
-  }
+  }*/
 }
 
 void apertura() {
   while (digitalRead(finecorsa_apre) != 0) {
 
     digitalWrite(apre, LOW);
-    dt2 = millis() - t2;
+    digitalWrite(lampeggiante, LOW);
+    delay(500);
+    /*dt2 = millis() - t2;
     if (dt2 >= 700) {
       digitalWrite(lampeggiante, !digitalRead(lampeggiante));
       t2 = millis();
-    }
+    }*/
 
     if (digitalRead(fotocellula) == 1) {
       moto = 0;
@@ -116,19 +118,20 @@ void apertura() {
   moto = 0;
   digitalWrite(apre, HIGH);
   digitalWrite(lampeggiante, HIGH);
-  t1 = millis();
-  RUN = true;
+  //t1 = millis();
+  //RUN = true;
 }
 
 void chiusura() {
-  RUN = false;
+  //RUN = false;
   while (digitalRead(finecorsa_chiude) != 0) {
     digitalWrite(chiude, LOW);
-    dt2 = millis() - t2;
+    digitalWrite(lampeggiante, LOW);
+    /*dt2 = millis() - t2;
     if (dt2 >= 700) {
       digitalWrite(lampeggiante, !digitalRead(lampeggiante));
-      t2 = millis();
-    }
+      t2 = millis();*/
+
     if (digitalRead(fotocellula) == 1) {
       moto = 0;
       dir = 0;
@@ -142,6 +145,8 @@ void chiusura() {
       break;
     }
   }
+
+
   digitalWrite(chiude, HIGH);
   digitalWrite(lampeggiante, HIGH);
   delay(500);
