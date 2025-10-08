@@ -1,13 +1,7 @@
 /*
 APRICANCELLO BY MARCO DALL'OLMO  9-5-2024 
 Aggiornato 4-10-25
-  */
-/*#define INTERVALLOA 200        //intrevallo lampeggio asincriono
-#define INTERVALLOB 2500       //intrevallo lampeggio asincriono
-static unsigned long t1, dt;   //Timer 1 non bloccante
-static unsigned long t2, dt2;  //Timer 2 non bloccante
-boolean RUN = false;
-boolean RUN1 = false;*/
+*/
 int remote = 8;            //Ingresso telecomando
 int apre = 3;              //Uscita motore apre
 int chiude = 2;            //Uscita motore chiude
@@ -18,8 +12,7 @@ int finecorsa_chiude = 7;  //Ingresso finecorsa chiusura
 int dir = 0;               //Direzione motore
 int moto = 0;              //Stato motore
 int i = 0;
-//int fase = 0;
-//int stp = 0;
+
 
 
 
@@ -30,7 +23,7 @@ void setup() {
   pinMode(chiude, OUTPUT);
   pinMode(lampeggiante, OUTPUT);
   pinMode(fotocellula, INPUT_PULLUP);
-  pinMode(remote, INPUT_PULLUP);
+  pinMode(remote, INPUT);
   pinMode(finecorsa_apre, INPUT_PULLUP);
   pinMode(finecorsa_chiude, INPUT_PULLUP);
   Serial.begin(115200);
@@ -66,26 +59,6 @@ void loop() {
         break;
     }
   }
-  /*dt = millis() - t1;
-  if ((dt >= 40000) && RUN) {
-    chiusura();
-    RUN = false;
-  }
-  if (dir == 1 && RUN) {
-    dt2 = millis() - t2;
-    if (dt2 >= stp) {
-      if (fase == 0) {
-        stp = INTERVALLOA;
-        fase = 1;
-        digitalWrite(lampeggiante, !digitalRead(lampeggiante));
-      } else {
-        stp = INTERVALLOB;
-        fase = 0;
-        digitalWrite(lampeggiante, !digitalRead(lampeggiante));
-      }
-      t2 = millis();
-    }
-  }*/
 }
 
 void apertura() {
@@ -93,12 +66,7 @@ void apertura() {
 
     digitalWrite(apre, LOW);
     digitalWrite(lampeggiante, LOW);
-    delay(500);
-    /*dt2 = millis() - t2;
-    if (dt2 >= 700) {
-      digitalWrite(lampeggiante, !digitalRead(lampeggiante));
-      t2 = millis();
-    }*/
+
 
     if (digitalRead(fotocellula) == 1) {
       moto = 0;
@@ -118,8 +86,6 @@ void apertura() {
   moto = 0;
   digitalWrite(apre, HIGH);
   digitalWrite(lampeggiante, HIGH);
-  //t1 = millis();
-  //RUN = true;
 }
 
 void chiusura() {
@@ -127,11 +93,6 @@ void chiusura() {
   while (digitalRead(finecorsa_chiude) != 0) {
     digitalWrite(chiude, LOW);
     digitalWrite(lampeggiante, LOW);
-    /*dt2 = millis() - t2;
-    if (dt2 >= 700) {
-      digitalWrite(lampeggiante, !digitalRead(lampeggiante));
-      t2 = millis();*/
-
     if (digitalRead(fotocellula) == 1) {
       moto = 0;
       dir = 0;
