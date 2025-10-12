@@ -85,7 +85,13 @@ void apertura() {
   dir = 1;
   moto = 0;
   digitalWrite(apre, HIGH);
-  digitalWrite(lampeggiante, HIGH);
+  for (i = 1; i <= 20; i++) {
+    digitalWrite(lampeggiante, HIGH);
+    delay(1700);
+    digitalWrite(lampeggiante, LOW);
+    delay(300);
+    }
+  chiusura();
 }
 
 void chiusura() {
